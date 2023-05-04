@@ -7,10 +7,11 @@ class ModelUtils:
     Utility methods for model training, 
     validation, testing and selection.
     '''
-    def __init__(self, model, training_data):
+    def __init__(self, model, training_data, validation_data, batch_size):
         self.model = model
         self.training_data = training_data
-        # self.device = torch_device('cuda' if cuda.is_available() else 'cpu')
+        self.validation_data = validation_data
+        self.batch_size = batch_size
 
     def build_optimizer(self, optimizer: str = 'adam', lr: float = 0.01, momentum: float = 0.0):
         if optimizer == 'adam':
@@ -25,9 +26,9 @@ class ModelUtils:
         :param config: config passed from config file
         '''
         optimizer = self.build_optimizer(config.optimizer, config.learning_rate, 0.9)
-        loss = tf.keras.losses.CategoricalCrossentropy(from_logits=False)
+        loss = tf.keras.losses.CategoricalCrossentropy(from_logits = False)
         metrics = ['Accuracy', 'AUC', 'Precision', 'Recall']
-        self.model.compile(optimizer, loss, metrics=metrics)
+        self.model.compile(optimizer, loss=loss, metrics=metrics)
         print(self.model.summary())
 
     def train(self):
@@ -38,10 +39,9 @@ class ModelUtils:
         :param x: training data
         :param y: training labels
         '''
-        x, y = self.training_data
         config_defaults = {
             'optimizer': 'adam',
-            'batch_size': 16,
+            'batch_size': 512,
             'learning_rate': 0.01,
             'epochs': 10,
         }
@@ -49,10 +49,10 @@ class ModelUtils:
         config = wandb.config
         self.build_model(config)
         self.model.fit(
-            x, y,
-            validation_split=0.2,
+            self.training_data,
+            validation_data=self.validation_data,
             epochs=config.epochs, 
-            batch_size=config.batch_size,
+            batch_size=self.batch_size,
             callbacks=[WandbCallback()]
         )
         wandb.finish()

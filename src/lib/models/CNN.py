@@ -2,13 +2,12 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, AveragePooling2D, Flatten, Dense, Dropout
 
 cnns = {
-    'conv-mp-flat-ds-ds': Sequential([]),
-    'conv-mp-flat-ds-ds': Sequential([
+    'simple-net': Sequential([
         Conv2D(32, 3, padding='same', input_shape=(50, 50, 3), activation='relu'),
         MaxPooling2D(),
         Flatten(),
         Dense(64, activation='relu'),
-        Dense(units=7, activation='softmax')
+        Dense(units=6, activation='softmax')
     ]),
     'conv-conv-mp-flat-ds-ds-do-ds': Sequential([
         Conv2D(16, 3, padding='same', input_shape=(50, 50, 3), activation='relu'),
@@ -18,7 +17,7 @@ cnns = {
         Dense(100, activation='relu'),
         Dense(50, activation='relu'),
         Dropout(rate=0.6),
-        Dense(units=7, activation='softmax')
+        Dense(units=6, activation='softmax')
     ]),
     'conv-conv-mp-f-ds-do-ds-do-ds': Sequential([
         Conv2D(16, 3, strides=1, padding="same", input_shape=(50, 50, 3), activation='relu'),
@@ -29,7 +28,7 @@ cnns = {
         Dropout(rate=0.6),
         Dense(64, activation='relu'),
         Dropout(rate=0.5),
-        Dense(units=7, activation='softmax')
+        Dense(units=6, activation='softmax')
     ]),
     'le-net-5': Sequential([
         Conv2D(filters=6, kernel_size=(5, 5), activation='relu', input_shape=(50, 50, 3)),
@@ -39,6 +38,6 @@ cnns = {
         Flatten(),
         Dense(units=120, activation='relu'),
         Dense(units=84, activation='relu'),
-        Dense(units=7, activation='softmax')
+        Dense(units=6, activation='softmax')
     ])
 }

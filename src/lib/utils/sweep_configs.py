@@ -11,9 +11,6 @@ sweep_config: Dict[str, Any] = {
             'values': ['adam', 'sgd']
         },
         'epochs': { 'value': 10 },
-        'batch_size': {
-            'values': [32, 64, 128]
-        },
         'learning_rate': {
             'values': [0.1, 0.01, 0.001, 0.0001]
         }

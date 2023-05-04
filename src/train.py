@@ -40,8 +40,7 @@ x_train = data_utils._standardize(
     data_utils._normalize(x_train)
 )
 y_train = to_categorical(
-    y_train, 
-    len(LABELS)
+    y_train, len(LABELS)
 )
 
 K.clear_session()
